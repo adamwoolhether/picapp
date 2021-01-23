@@ -2,24 +2,27 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/julienschmidt/httprouter"
 )
 
-func home(w http.ResponseWriter, r *http.Request) {
+func home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	w.Header().Set("Content-Type", "text/html")
 	fmt.Fprint(w, "<h1>Welcome the the picapp site</h1>")
 }
 
-func contact(w http.ResponseWriter, r *http.Request) {
+func contact(w http.ResponseWriter, r *http.Request, pn httprouter.Params) {
 	w.Header().Set("Content-Type", "text/html")
 	fmt.Fprint(w, "<a>Contact me: <a href=\"mailto:adamwoolhether@gmail.com\">adamwoolhether@gmail.com</a></h1>")
+	fmt.Fprintf(w, "<br><a>You're on the cotact %s page!", pn.ByName("page"))
 }
 
+// This demonstrates the use of httprouter pacakge, and the dynamic routing ability it has.
 func main() {
-	r := mux.NewRouter()
-	r.HandleFunc("/", home)
-	r.HandleFunc("/contact", contact)
-	http.ListenAndServe("localhost:3000", r)
+	r := httprouter.New()
+	r.GET("/", home)
+	r.GET("/contact/:page", contact)
+	log.Fatal(http.ListenAndServe("localhost:3000", r))
 }
