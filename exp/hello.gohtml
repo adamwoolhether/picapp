@@ -1,0 +1,11 @@
+<h1>Hello, {{.Name}}, you are {{.Age}} years old.</h1>
+<p>Your dog's name is {{.Dog.Name}}, it is a {{.Dog.DogAge}} year old {{.Dog.Breed}}. Your favorite games are:</p>
+{{range .Favs}}
+<b>Position</b>
+    {{.}}
+{{end}}
+<p>Here's an example map: {{.Map}}</p>
+<p>You can turn them into JSON format:</p>
+<script>var m = {{.Map}}</script>
+<script>var t = {{.Favs}}</script>
+
