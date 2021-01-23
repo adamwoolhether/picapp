@@ -18,7 +18,7 @@ func contact(w http.ResponseWriter, r *http.Request) {
 }
 
 func lost(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(http.StatusNotFound)
 	fmt.Fprint(w, "<h1>Sorry, this page doesn't exist</h1>")
 }
 
@@ -28,8 +28,7 @@ func main() {
 	//Creating a custom 404 err response for Gorilla's mux:
 	// Because the backed of gorilla's mux NotFoundHandler directs to http.Handler
 	// you must implement the http.Handler interface and assign it to NotFoundHandler
-	var l http.Handler = http.HandlerFunc(lost)
-	r.NotFoundHandler = l
+	r.NotFoundHandler = http.HandlerFunc(lost)
 
 	r.HandleFunc("/", home)
 	r.HandleFunc("/contact", contact)
