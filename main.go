@@ -19,10 +19,17 @@ func contact(w http.ResponseWriter, r *http.Request, pn httprouter.Params) {
 	fmt.Fprintf(w, "<br><a>You're on the cotact %s page!", pn.ByName("page"))
 }
 
+func lost(w http.ResponseWriter, r *http.Request){
+	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(http.StatusNotFound)
+	fmt.Fprint(w, "<h1>This page is not available</h1>")
+}
+
 // This demonstrates the use of httprouter pacakge, and the dynamic routing ability it has.
 func main() {
 	r := httprouter.New()
 	r.GET("/", home)
 	r.GET("/contact/:page", contact)
+	r.NotFound = http.HandlerFunc(lost)
 	log.Fatal(http.ListenAndServe("localhost:3000", r))
 }
