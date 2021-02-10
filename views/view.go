@@ -66,7 +66,7 @@ func addTemplatePath(files []string) {
 	}
 }
 
-// addTempalteExt takes a slice of strings representing templates' file paths.
+// addTemplateExt takes a slice of strings representing templates' file paths.
 // It appends template ext to each string in the slice.
 // Eg. input {"home"} results in output {"home.gohtml"} if TemplateExt == ".gohtml"
 func addTemplateExt(files []string) {
